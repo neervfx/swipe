@@ -27,12 +27,15 @@ public enum Swipes { None, Up, Down, Left, TopLeft, BottomLeft, Right, TopRight,
 public class SwipeManager : MonoBehaviour
 {
     public float minSwipeLength = 200f;
-    Vector2 currentSwipe;
-
+  
     private Vector2 fingerStart;
     private Vector2 fingerEnd;
 
     public static Swipes direction;
+	public static float angle;
+	public static Vector2 strength;
+
+	public static bool debugMode = false;
 
     void Update ()
     {
@@ -49,48 +52,48 @@ public class SwipeManager : MonoBehaviour
         if(Input.GetMouseButton(0)) {
             fingerEnd = Input.mousePosition;
 
-            currentSwipe = new Vector2 (fingerEnd.x - fingerStart.x, fingerEnd.y - fingerStart.y);
+			strength = new Vector2 (fingerEnd.x - fingerStart.x, fingerEnd.y - fingerStart.y);
 
             // Make sure it was a legit swipe, not a tap
-            if (currentSwipe.magnitude < minSwipeLength) {
+			if (strength.magnitude < minSwipeLength) {
                 direction = Swipes.None;
                 return;
             }
 
-            float angle = (Mathf.Atan2(currentSwipe.y, currentSwipe.x) / (Mathf.PI));
-            Debug.Log(angle);
+			angle = (Mathf.Atan2(strength.y, strength.x) / (Mathf.PI));
+			if (debugMode) Debug.Log(angle);
             // Swipe up
             if (angle>0.375f && angle<0.625f) {
                 direction = Swipes.Up;
-                Debug.Log ("Up");
+				if (debugMode) Debug.Log ("Up");
                 // Swipe down
             } else if (angle<-0.375f && angle>-0.625f) {
                 direction = Swipes.Down;
-                Debug.Log ("Down");
+				if (debugMode) Debug.Log ("Down");
                 // Swipe left
             } else if (angle<-0.875f || angle>0.875f) {
                 direction = Swipes.Left;
-                Debug.Log ("Left");
+				if (debugMode) Debug.Log ("Left");
                 // Swipe right
             } else if (angle>-0.125f && angle<0.125f) {
                 direction = Swipes.Right;
-                Debug.Log ("Right");
+				if (debugMode) Debug.Log ("Right");
             }
             else if(angle>0.125f && angle<0.375f){
                 direction = Swipes.TopRight;
-                Debug.Log ("top right");
+				if (debugMode) Debug.Log ("top right");
             }
             else if(angle>0.625f && angle<0.875f){
                 direction = Swipes.TopLeft;
-                Debug.Log ("top left");
+				if (debugMode) Debug.Log ("top left");
             }
             else if(angle<-0.125f && angle>-0.375f){
                 direction = Swipes.BottomRight;
-                Debug.Log ("bottom right");
+				if (debugMode) Debug.Log ("bottom right");
             }
             else if(angle<-0.625f && angle>-0.875f){
                 direction = Swipes.BottomLeft;
-                Debug.Log ("bottom left");
+				if (debugMode) Debug.Log ("bottom left");
             }
         }
 
