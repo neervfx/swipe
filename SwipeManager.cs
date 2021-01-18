@@ -24,7 +24,7 @@ using UnityEngine;
 
 public enum Swipes { None, Up, Down, Left, TopLeft, BottomLeft, Right, TopRight,  BottomRight};
 
-public class SwipeManager : MonoBehaviour
+public class swipeManager : MonoBehaviour
 {
     public float minSwipeLength = 200f;
     Vector2 currentSwipe;
